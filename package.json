@@ -1,6 +1,6 @@
 {
   "name": "donkey-plugin-ps",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Plugin to ps the image",
   "main": "ps.js",
   "scripts": {
