@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-02-12 23:23:25
- * @LastEditTime: 2020-03-04 10:03:31
+ * @LastEditTime: 2020-03-06 16:16:20
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /donkey-plugin-slim/slim.js
@@ -17,7 +17,7 @@ class Ps {
         this._dest_dir = dest_dir;
         this._args = args;
         this._ctx = ctx;
-        this._dest_path = this._dest_dir+'/'+path.basename(this.src_path);
+        this._dest_path = this._dest_dir+'/'+path.basename(this._src_path);
     }
 
     async slim() {
