@@ -23,7 +23,7 @@ class Ps {
     async slim() {
         let scale = this._args[1];
         if (scale == 'auto' || ( parseFloat(scale) < 1.0 && parseFloat(scale) >= 0.1)){
-
+            //只能输入0.1到1直接的数
             let image = sharp(this._src_path);
             
             let metadata = await image.metadata();
@@ -49,6 +49,7 @@ class Ps {
                 }
                 
             }else {
+                //设置width
                 width  = Math.round(width * parseFloat(scale));
                 await image.resize({width:width}).toFile(this._dest_path);
             }
@@ -59,6 +60,26 @@ class Ps {
     }
 
     async resize () { 
+        let width_p = this._args[1];
+        let height_p = this._args[2];
+        // console.log('---------------width_p----',width_p);
+        // console.log('---------------height_p----',width_p);
+
+        if(width_p<0 || isNaN(width_p)) throw 'Invalid width factor ' + width_p;
+        if(height_p<0 || isNaN(height_p)) throw 'Invalid height factor ' + height_p;
+
+        width_p=parseFloat(width_p);
+        height_p=parseFloat(height_p);
+
+        let image = sharp(this._src_path);
+        let metadata = await image.metadata();
+        let width_m = metadata.width;
+        let height_m = metadata.height;
+
+        if(width_p<=0 || width_p>width_m) width_p = width_m;
+        if(height_p<=0 || height_p>height_m) height_p = height_m;
+
+        await image.resize(width_p,height_p).toFile(this._dest_path);
     }
 
     async exec() {
@@ -70,7 +91,7 @@ class Ps {
         if (this._args[0] == 'slim') {
             dest = await this.slim(this._args[1]);
         }else if (this._args[0] == 'resize') {
-
+            dest = await this.resize()
         }else {
             throw 'unknown param <'+this._args[0]+'>';
         }
