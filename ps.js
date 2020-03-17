@@ -62,8 +62,8 @@ class Ps {
     async resize () { 
         let width_p = this._args[1];
         let height_p = this._args[2];
-        let fit_num = this._args[3];
-        let position_num = this._args[4];
+        let fit_num = this._args[3]+'';
+        let position_num = this._args[4]+'';
         let fit = 'cover';
         let position = 'centre';
 
@@ -83,27 +83,23 @@ class Ps {
 
         if(width_p<=0 || width_p>width_m) width_p = width_m;
         if(height_p==undefined || height_p<=0 || height_p>height_m) height_p = height_m;
-
-        if(fit_num && isNaN(fit_num)){
-            switch(fit_num){
-                case 1: fit='cover';break;
-                case 2: fit='contain';break;
-                case 3: fit='fill';break;
-                case 4: fit='inside';break;
-                case 5: fit='outside';break;
-            }
+        
+        switch(fit_num){
+            case '1': fit='cover';break;
+            case '2': fit='contain';break;
+            case '3': fit='fill';break;
+            case '4': fit='inside';break;
+            case '5': fit='outside';break;
         }
-        if(position_num && isNaN(position_num)){
-            switch(position_num){
-                case 1: position='top';break;
-                case 2: position='right top';break;
-                case 3: position='right';break;
-                case 4: position='right bottom';break;
-                case 5: position='bottom';break;
-                case 6: position='left bottom';break;
-                case 7: position='left';break;
-                case 8: position='left top';break;
-            }
+        switch(position_num){
+            case '1': position='top';break;
+            case '2': position='right top';break;
+            case '3': position='right';break;
+            case '4': position='right bottom';break;
+            case '5': position='bottom';break;
+            case '6': position='left bottom';break;
+            case '7': position='left';break;
+            case '8': position='left top';break;
         }
 
         await image.resize(width_p,height_p,{
