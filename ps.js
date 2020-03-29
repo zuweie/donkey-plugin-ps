@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-02-12 23:23:25
- * @LastEditTime: 2020-03-06 16:16:20
+ * @LastEditTime: 2020-03-29 13:54:55
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /donkey-plugin-slim/slim.js
@@ -60,48 +60,62 @@ class Ps {
     }
 
     async resize () { 
-        let width_p = this._args[1];
-        let height_p = this._args[2];
-        let fit_num = this._args[3]+'';
-        let position_num = this._args[4]+'';
-        let fit = 'cover';
-        let position = 'centre';
+        let isNum = /^\d+$/;
+        let width_p = 0;
+        let height_p = 0;
+        let fit = 'cover'; // default
+        let position_num = '5'; // default
+        let position = 'center';
+        if (isNum.test(this._args[1])) {
+            width_p = parseInt(this._args[1]);
+        }else {
+            throw 'width must be a int';
+        }
 
-        // console.log('---------------width_p----',width_p);
-        // console.log('---------------height_p----',width_p);
+        if (isNum.test(this._args[2])) {
+            height_p = parseInt(this._args[2]);
+        }else {
+            throw 'height must be a int';
+        }
+        
+        // args[3] 
+        if (this._args[3]) {
+            fit = this._args[3];
+        }
 
-        if(width_p<0 || isNaN(width_p)) throw 'Invalid width factor ' + width_p;
-        if(height_p<0 || isNaN(height_p)) throw 'Invalid height factor ' + height_p;
+        if (fit != 'cover' && fit != 'contain' && fit != 'fill' && fit != 'inside' && fit != 'outside') {
+            throw 'fit must be one of cover, contain, fill, inside, outside! default cover'
+        }
 
-        width_p=parseFloat(width_p);
-        height_p=parseFloat(height_p);
+        if (this._args[4]) {
+            if (isNum.test(this._args[4])) {
+                position_num = this._args[4];
+            }else {
+                'position number be int';
+            }
+        }
+
+        switch(position_num){
+            case '1': position='left top';break;
+            case '2': position='top';break;
+            case '3': position='right top';break;
+            case '4': position='left';break;
+            case '5': position='center';break;
+            case '6': position='right';break;
+            case '7': position='left bottom';break;
+            case '8': position='bottom';break;
+            case '9': position='right bottom';break;
+            default: throw 'position must be 1 ~ 9, which stand for 1-top left, 2-top, 3-top right, 4-left, 5-center， 6-rigth, 7-left bttom, 8-bottom, 9-right bottom. default center '
+        }
 
         let image = sharp(this._src_path);
         let metadata = await image.metadata();
         let width_m = metadata.width;
         let height_m = metadata.height;
-
-        if(width_p<=0 || width_p>width_m) width_p = width_m;
-        if(height_p==undefined || height_p<=0 || height_p>height_m) height_p = height_m;
+ 
+        if(width_p>width_m) width_p = width_m;
+        if(height_p>height_m) height_p = height_m;
         
-        switch(fit_num){
-            case '1': fit='cover';break;
-            case '2': fit='contain';break;
-            case '3': fit='fill';break;
-            case '4': fit='inside';break;
-            case '5': fit='outside';break;
-        }
-        switch(position_num){
-            case '1': position='top';break;
-            case '2': position='right top';break;
-            case '3': position='right';break;
-            case '4': position='right bottom';break;
-            case '5': position='bottom';break;
-            case '6': position='left bottom';break;
-            case '7': position='left';break;
-            case '8': position='left top';break;
-        }
-
         await image.resize(width_p,height_p,{
             fit: fit,
             position: position
