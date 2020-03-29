@@ -1,6 +1,6 @@
 {
   "name": "putsoon-plugin-ps",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Plugin to ps the image",
   "main": "ps.js",
   "scripts": {

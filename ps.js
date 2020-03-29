@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-02-12 23:23:25
- * @LastEditTime: 2020-03-29 13:54:55
+ * @LastEditTime: 2020-03-29 14:25:28
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /donkey-plugin-slim/slim.js
@@ -113,6 +113,8 @@ class Ps {
         let width_m = metadata.width;
         let height_m = metadata.height;
  
+        //console.debug('ps.js#resize@width_m,height_m,width_p,height_p,fit,position', width_m, height_m, width_p, height_p, fit, position);
+
         if(width_p>width_m) width_p = width_m;
         if(height_p>height_m) height_p = height_m;
         
